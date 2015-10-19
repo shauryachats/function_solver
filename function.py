@@ -8,7 +8,7 @@
 #The operator array is to be differentiated from other characters while splitting.
 	
 """TODO : Add support for custom operators, like sin() or log()"""
-operators_list = ['+','-','*','/','^','(',')']
+operators_list = ['+','-','*','/','^']
 
 #Defines a priority order of the operators, like which operator 
 #should be applied before another, like the BODMAS rule.
@@ -48,7 +48,7 @@ def string_split_into_lexicon( input_string ):
 			lexicon_list.append(temp)
 
 		#Checking for the operators
-		elif (character in operators_list):
+		elif character in operators_list or character in ['(',')']:
 			lexicon_list.append(character)
 			iterating_index += 1
 
@@ -71,7 +71,7 @@ def lexicon_list_to_postfix(lexicon_list):
 	postfix_list = []
 	stack = []
 	for lexicon in lexicon_list:
-		if lexicon not in operators_list:
+		if lexicon not in operators_list and lexicon not in ['(',')']:
 			postfix_list.append(lexicon)
 		else:
 			if (lexicon == '('):
