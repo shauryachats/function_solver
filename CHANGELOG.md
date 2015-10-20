@@ -1,4 +1,14 @@
-### Unary operators support extended (HEAD, master)
+### Shortened function names and clean formatting (HEAD, master)
+>Tue, 20 Oct 2015 17:17:38 +0530
+
+>Author: Shaurya (shauryachats@gmail.com)
+
+>Commiter: Shaurya (shauryachats@gmail.com)
+
+
+
+
+### Unary operators support extended (origin/master, origin/HEAD)
 >Tue, 20 Oct 2015 17:04:47 +0530
 
 >Author: Shaurya (shauryachats@gmail.com)
@@ -8,7 +18,7 @@
 
 
 
-### Paranthesis removed from operators_list (origin/master, origin/HEAD)
+### Paranthesis removed from operators_list
 >Mon, 19 Oct 2015 20:48:14 +0530
 
 >Author: Shaurya (shauryachats@gmail.com)

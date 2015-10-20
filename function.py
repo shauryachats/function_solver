@@ -33,7 +33,8 @@ priority_order.update(dict((element,4) for element in operators_list_unary))
 #This function splits the function string into a list
 #of tokens, that can be processed by the infix-er.
 
-def string_split_into_token( input_string ):
+"""TODO: Add support for decimal numbers"""
+def string_to_token( input_string ):
 	token_list = []
 	iterating_index = 0 	
 	
@@ -43,7 +44,6 @@ def string_split_into_token( input_string ):
 		
 		character = input_string[iterating_index]
 
-		print character
 		#Checking if there is a number, we'll chomp it whole.
 		if (character.isdigit()):
 			temp = int(character)
@@ -80,24 +80,28 @@ def string_split_into_token( input_string ):
 
 	return token_list
 
-def token_list_to_postfix(token_list):
+def token_to_postfix(token_list):
 	postfix_list = []
 	stack = []
 	for token in token_list:
 		
 		if (token == '('):
-				stack.append(token)
+			stack.append(token)
+
 		elif (token == ')'):
+			
 			while (stack[-1] != '('):
 				postfix_list.append(stack.pop())
-				#Get rid of the '('
+			
+			#Get rid of the '('
 			stack.pop()
 			
 		elif token in operators_list_binary or token in operators_list_unary:
-				while stack and stack[-1] != '(' and (priority_order[stack[-1]] >= priority_order[token]):
-					postfix_list.append(stack.pop())
+		
+			while stack and stack[-1] != '(' and (priority_order[stack[-1]] >= priority_order[token]):
+				postfix_list.append(stack.pop())
 				
-				stack.append(token)
+			stack.append(token)
 
 		else:
 			postfix_list.append(token)
@@ -179,16 +183,4 @@ def postfix_to_value(postfix_list, variable_dict):
 	return stack.pop()
 
 
-##TEST
-x = "cos(sin(0))"
-dicta = {
-	"x" : 2,
-	"y" : 3
-}
 
-y = string_split_into_token(x)
-#print y
-z = token_list_to_postfix(y)
-#print z
-aa = postfix_to_value(z,dicta)
-print aa
