@@ -6,6 +6,7 @@
 #
 
 import math
+import sys #For sys.exit() 
 
 #The operator array is to be differentiated from other characters while splitting.
 operators_list_binary = ['+','-','*','/','^']
@@ -27,13 +28,10 @@ priority_order = {
 }
 
 #Setting priority for all unary operators to be 4
-
 priority_order.update(dict((element,4) for element in operators_list_unary))
 
 #This function splits the function string into a list
-#of tokens, that can be processed by the infix-er.
-
-"""TODO: Add support for decimal numbers"""
+#of tokens, that can be processed by the postfix-er.
 def string_to_token( input_string ):
 	token_list = []
 	iterating_index = 0 	
@@ -87,6 +85,7 @@ def string_to_token( input_string ):
 
 	return token_list
 
+#Converts the processed list of token into postfix form.
 def token_to_postfix(token_list):
 	postfix_list = []
 	stack = []
@@ -118,7 +117,22 @@ def token_to_postfix(token_list):
 	print postfix_list
 	return postfix_list
 
-"""TODO: Throw error if variable is not contained in variable_dict"""
+#Helper function to check if stack.pop() is a number or present in the variable dictionary,
+#failing which would generate an error
+def pop_from_stack(stack, variable_dict):
+	val = stack.pop()
+	try:
+		val = float(val)
+	except ValueError:
+		try:
+			val = variable_dict[val]
+		except KeyError:
+			print "The value of the variable",val,"is not found in the variable dictionary."
+			sys.exit(1)
+	return val
+
+#Processes the postfix_list to obtain the value, after evaluating the values of the variables
+#as defined in the variable_dict(ionary)
 def postfix_to_value(postfix_list, variable_dict):
 	value = 0
 	stack = []
@@ -129,22 +143,9 @@ def postfix_to_value(postfix_list, variable_dict):
 
 		if  token in operators_list_binary:
 			
-			value2 = stack.pop()
-			value1 = stack.pop()
+			value2 = pop_from_stack(stack, variable_dict)
+			value1 = pop_from_stack(stack, variable_dict)
 			
-			#If value1 and value2 are not numbers, look them up in variable_dict
-			"""TODO: What happens when they are not in variable_dict??"""
-			try:
-				value1 = float(value1)
-			except ValueError:
-				value1 = variable_dict[value1]
-
-			try:
-				value2 = float(value2)
-			except ValueError:
-				value2 = variable_dict[value2]
-
-
 			if (token == '+'):
 				value = value1 + value2
 			elif (token == '-'):
@@ -160,12 +161,7 @@ def postfix_to_value(postfix_list, variable_dict):
 		
 		elif token in operators_list_unary:
 
-			value = stack.pop()
-
-			try:
-				value = float(value)
-			except ValueError:
-				value = variable_dict[value]
+			value = pop_from_stack(stack, variable_dict)
 
 			if (token == "sin"):
 				value = math.sin(value)

@@ -1,4 +1,14 @@
-### Added decimal support (HEAD, master)
+### Added error handlers for missing variables (HEAD, master)
+>Wed, 21 Oct 2015 10:42:56 +0530
+
+>Author: Shaurya (shauryachats@gmail.com)
+
+>Commiter: Shaurya (shauryachats@gmail.com)
+
+
+
+
+### Added decimal support (origin/master, origin/HEAD)
 >Wed, 21 Oct 2015 10:25:40 +0530
 
 >Author: Shaurya (shauryachats@gmail.com)
@@ -8,7 +18,7 @@
 
 
 
-### Shortened function names and clean formatting (origin/master, origin/HEAD)
+### Shortened function names and clean formatting
 >Tue, 20 Oct 2015 17:17:38 +0530
 
 >Author: Shaurya (shauryachats@gmail.com)
