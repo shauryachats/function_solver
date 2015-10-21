@@ -15,9 +15,9 @@ operators_list_unary = ["sin","cos","tan","cosec","sec","cot","log"]
 
 
 """TODO : Add support for custom operators"""
+
 #Defines a priority order of the operators, like which operator 
 #should be applied before another, like the BODMAS rule.
-
 priority_order = {
 	'^' : 3,
 	'*' : 2,
@@ -50,12 +50,19 @@ def string_to_token( input_string ):
 			iterating_index += 1
 			#Searching the next element : if it's a number, we take it in, if not, the loop exits.
 			
-			while (
-				iterating_index < len(input_string) and	input_string[iterating_index].isdigit()
-				):
+			while (iterating_index < len(input_string) and input_string[iterating_index].isdigit()):
 				temp = temp * 10 + int(input_string[iterating_index])
 				iterating_index += 1
 
+			#Check if  '.' is encountered, because the number will then have a decimal point
+			if (input_string[iterating_index] == '.'):
+				iterating_index += 1
+				decimal_depth = 1
+				while (	iterating_index < len(input_string) and input_string[iterating_index].isdigit()):
+					temp += float(input_string[iterating_index]) / pow(10,decimal_depth)
+					iterating_index += 1
+					decimal_depth += 1
+			
 			token_list.append(temp)
 
 		#Checking for the operators
@@ -128,12 +135,12 @@ def postfix_to_value(postfix_list, variable_dict):
 			#If value1 and value2 are not numbers, look them up in variable_dict
 			"""TODO: What happens when they are not in variable_dict??"""
 			try:
-				value1 = int(value1)
+				value1 = float(value1)
 			except ValueError:
 				value1 = variable_dict[value1]
 
 			try:
-				value2 = int(value2)
+				value2 = float(value2)
 			except ValueError:
 				value2 = variable_dict[value2]
 
@@ -156,7 +163,7 @@ def postfix_to_value(postfix_list, variable_dict):
 			value = stack.pop()
 
 			try:
-				value = int(value)
+				value = float(value)
 			except ValueError:
 				value = variable_dict[value]
 
