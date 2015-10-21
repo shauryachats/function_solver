@@ -7,6 +7,7 @@
 
 import math
 import sys #For sys.exit() 
+from numbers import Number
 
 #The operator array is to be differentiated from other characters while splitting.
 operators_list_binary = ['+','-','*','/','^']
@@ -33,6 +34,10 @@ priority_order.update(dict((element,4) for element in operators_list_unary))
 #This function splits the function string into a list
 #of tokens, that can be processed by the postfix-er.
 def string_to_token( input_string ):
+	
+	#Stripping the spaces off the input_string
+	input_string = input_string.replace(' ','')
+
 	token_list = []
 	iterating_index = 0 	
 	
@@ -53,7 +58,7 @@ def string_to_token( input_string ):
 				iterating_index += 1
 
 			#Check if  '.' is encountered, because the number will then have a decimal point
-			if (input_string[iterating_index] == '.'):
+			if (iterating_index < len(input_string) and input_string[iterating_index] == '.'):
 				iterating_index += 1
 				decimal_depth = 1
 				while (	iterating_index < len(input_string) and input_string[iterating_index].isdigit()):
@@ -82,6 +87,41 @@ def string_to_token( input_string ):
 			token_list.append(temp)
 
 	token_list.append(')')
+
+	return token_list
+
+# This function adds support for "shorthand" i.e.
+#	2x ==> 2 * x
+#   x2 ==> 1 * x ^ 2
+# 	2sin(x2)2 ==> 2 * sin(x ^ 2) ^ 2
+
+"""TODO : Support for all char seperation i.e. xsinx ==> x*sin(x)"""
+def token_shorthander(token_list):
+	
+	index = 0
+	while (index < len(token_list) - 1):
+
+		print index
+
+		if  ( 
+			isinstance(token_list[index], Number) and    #The current token is a number
+			token_list[index+1] not in operators_list_binary and #The next token is not an operator (obvio!)
+			token_list[index+1] != ')' and #The next token is not ')' (we dont append * at the closing bracket)
+			isinstance(token_list[index+1],str) #The next token is a string
+			):
+			token_list.insert(index+1,'*')
+			index += 1
+
+		elif(
+			isinstance(token_list[index], str) and 				#The current token is a string
+			token_list[index] not in operators_list_binary and 	#Not an operator,
+			token_list[index] != '(' and 						#Or a '(' either.
+			isinstance(token_list[index+1], Number)				#And the next token is a number
+			):
+			token_list.insert(index+1,'^')
+			index += 1
+
+		index += 1
 
 	return token_list
 
@@ -155,7 +195,7 @@ def postfix_to_value(postfix_list, variable_dict):
 			elif (token == '/'):
 				value = value1 / value2
 			elif (token == '^'):
-				value == math.pow(value1, value2)
+				value = pow(value1, value2)
 			
 			stack.append(value)
 		
@@ -183,7 +223,11 @@ def postfix_to_value(postfix_list, variable_dict):
 		else:
 			stack.append(token)
 			
-	return stack.pop()
+	#If the float is an int, convert it into int and return
+	val = stack.pop()
+	if val.is_integer():
+		val = int(val)
+	return val
 
 
 

@@ -1,4 +1,14 @@
-### Added error handlers for missing variables (HEAD, master)
+### Added basic shorthand support (HEAD, master)
+>Wed, 21 Oct 2015 17:05:44 +0530
+
+>Author: Shaurya (shauryachats@gmail.com)
+
+>Commiter: Shaurya (shauryachats@gmail.com)
+
+
+
+
+### Added error handlers for missing variables (origin/master, origin/HEAD)
 >Wed, 21 Oct 2015 10:42:56 +0530
 
 >Author: Shaurya (shauryachats@gmail.com)
@@ -8,7 +18,7 @@
 
 
 
-### Added decimal support (origin/master, origin/HEAD)
+### Added decimal support
 >Wed, 21 Oct 2015 10:25:40 +0530
 
 >Author: Shaurya (shauryachats@gmail.com)
